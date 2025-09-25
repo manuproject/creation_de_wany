@@ -1,0 +1,42 @@
+{
+  "compilerOptions": {
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+
+    // Other Outputs
+    "sourceMap": true,
+    "declaration": true,
+    "declarationMap": true,
+
+    "removeComments": true,
+    "forceConsistentCasingInFileNames": true,
+    "target": "es2022",
+    "verbatimModuleSyntax": true,
+    "allowJs": true,
+    "resolveJsonModule": true,
+    "moduleDetection": "force",
+    "strict": true,
+
+    // Stricter Typechecking Options
+    "exactOptionalPropertyTypes": true,
+    "noUncheckedIndexedAccess": true,
+
+    // Environments Settings
+    // See also https://aka.ms/tsconfig/module
+    "module": "preserve",
+    "moduleResolution": "bundler",
+    "noEmit": true,
+    "lib": ["ES2022"],
+    "typeRoots": ["./api/types", "./node_modules/@types"],
+    "noImplicitOverride": true,
+
+    // File Layout
+    // "rootDir": "..",
+    "outDir": "../dist/server",
+    "paths": {
+      "@common/*": ["../common/*"]
+    }
+  },
+  "include": ["api/**/*.ts", "../common"],
+  "exclude": ["node_modules", "dist"]
+}

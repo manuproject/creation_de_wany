@@ -1,0 +1,49 @@
+version: "3.8"
+
+services:
+  db:
+    container_name: mypsql
+    image: postgres:17
+    restart: unless-stopped
+    env_file: .env
+
+    # used in pgadmin visualized datas
+    ports:
+      - "5432:5432"
+
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+    #checking if postgres is healthy
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "sh -c 'pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}'",
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+  workspaces:
+    image: node:22-bookworm
+    restart: unless-stopped
+    ports:
+      - "3185:3185"
+    env_file: .env
+    volumes:
+      - ../..:/workspaces:cached
+    depends_on:
+      db:
+        condition: service_healthy
+    command: sleep infinity
+
+    # Runs app on the same network as the database container, allows "forwardPorts" in devcontainer.json function.
+    # network_mode: service:db
+
+    # Add "forwardPorts": ["5432"] to **devcontainer.json** to forward PostgreSQL locally.
+    # (Adding the "ports" property to this file will not forward from a Codespace.)
+
+volumes:
+  postgres_data:
